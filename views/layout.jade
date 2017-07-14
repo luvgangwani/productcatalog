@@ -1,12 +1,31 @@
-html
+html(lang = "en")
 	head
 		block title
+		meta(charset = "utf-8")
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
 		link(rel = "stylesheet", href = "/scripts/css/bootstrap.min.css", type = "text/css")
+		link(rel = "stylesheet", href = "/local/css/productcatalog.css", type = "text/css")
 
 	body
-		.container-fluid.text-center
-			block header
+		.container.text-center
+			.h3 Product Catalog
+			hr
+			p This is a product catalog site that gives feedback on different products based on the user comments mentioned on the products
+			ul(class = "list-inline")
+				li
+					p(class = "navbar-btn")
+						a(href = "/", class = "btn btn-default") Home
+				li
+					p(class = "navbar-btn")
+						a(href = "#", class = "btn btn-default") About us
+				li
+					p(class = "navbar-btn")
+						a(href = "/viewproducts", class = "btn btn-default") View products
+				li
+					p(class = "navbar-btn")
+						a(href = "/addnewproduct", class = "btn btn-default") Add new product
+
 			block content
 	script(src = "/js/jquery.min.js")
+	script(src = "/local/js/productcatalog.js")
 	script(src = "/scripts/js/bootstrap.min.js")

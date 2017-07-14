@@ -3,21 +3,28 @@ extends ./layout
 block title
 	title Product Catalog
 
-block header
-	.h3 Product Catalog
-	hr
 block content
-	p This is a product catalog site that gives feedback on different products based on the user comments mentioned on the products
-	ul(class = "list-inline")
-		li
-			p(class = "navbar-btn")
-				a(href = "#", class = "btn btn-default") Home
-		li
-			p(class = "navbar-btn")
-				a(href = "#", class = "btn btn-default") About us
-		li
-			p(class = "navbar-btn")
-				a(href = "#", class = "btn btn-default") View products
-		li
-			p(class = "navbar-btn")
-				a(href = "#", class = "btn btn-default") View product ranks
+	#myCarousel(class = "carousel slide", data-ride = "carousel")
+		ol(class = "carousel-indicators")
+			li(data-target = "#myCarousel", data-slide-to = 0, class = "active")
+			li(data-target = "#myCarousel", data-slide-to = 1)
+			li(data-target = "#myCarousel", data-slide-to = 2)
+			li(data-target = "#myCarousel", data-slide-to = 3)
+			li(data-target = "#myCarousel", data-slide-to = 4)
+		.carousel-inner
+			.item.active
+				img(src = "/local/images/mobile.jpg", style = "width:100%; height: 75%")
+			.item
+				img(src = "/local/images/laptop.jpg", style = "width:100%; height: 75%")
+			.item
+				img(src = "/local/images/camera.jpg", style = "width:100%; height: 75%")
+			.item
+				img(src = "/local/images/chromecast.jpg", style = "width:100%; height: 75%")
+			.item
+				img(src = "/local/images/headphones.jpg", style = "width:100%; height: 75%")
+		a(class = "left carousel-control", href = "#myCarousel", data-slide = "prev")
+			span(class = "glyphicon glyphicon-chevron-left")
+			span(class = "sr-only") Previous
+		a(class = "right carousel-control", href = "#myCarousel", data-slide = "next")
+			span(class = "glyphicon glyphicon-chevron-right")
+			span(class = "sr-only") Next
