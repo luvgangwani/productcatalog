@@ -4,14 +4,20 @@ block title
 	title Product Catalog - Add new product
 
 block content
-	form(action = "/", method = "post", name = "addnewproduct", id = "addnewproduct")
+	form(action = "/addnewpro", method = "post", name = "addnewproduct", id = "addnewproduct")
 		.form-group
 			label(for = "pname") Product Name*:
 			input(type = "text", name = "pname", id = "pname", class = "form-control" required)
 		.form-group
 			label(for = "pdesc") Product Description:
 			textarea(name = "pdesc", id = "pdesc", class = "form-control")
-		.form-group
-			label(for = "pimg") Product Image:
-			input(type = "file" name = "pimg" id = "pimg" class = "form-control")
+		//- .form-group
+		//- 	label(for = "pimg") Product Image:
+		//- 	input(type = "text" name = "pimg" id = "pimg" class = "form-control")
 		button(type = "submit", class = "btn btn-primary", id = "btnNewProduct") Submit
+		.alert.alert-success(style = "display:none")
+			span(class = "glyphicon glyphicon-ok")
+			i  &nbsp; Added a new product!
+		.alert.alert-warning(style = "display:none")
+			span(class = "glyphicon glyphicon-remove")
+			i &nbsp; Product not added. Try again!

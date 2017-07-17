@@ -17,3 +17,29 @@ form#addnewproduct {
 	padding-left: 25px;
 	padding-right: 25px;
 }
+
+form#addnewproduct .alert-success, form#addnewproduct .alert-warning {
+
+	margin: 20px;
+}
+
+.view-products {
+
+	border: solid 1px #cccccc;
+	border-radius: 4px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin-bottom: 20px;
+	color: #ffffff;
+}
+
+.col-lg-3 a {
+
+	text-decoration: none;
+}
+
+.comments {
+
+	position: relative;
+	width: inherit;
+}

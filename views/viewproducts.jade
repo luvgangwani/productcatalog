@@ -1,0 +1,14 @@
+extends layout
+
+block title
+	title Product Catalog - View Products
+
+block content
+	.row
+		each product, i in products
+			.col-lg-3
+				a(href = "/viewproduct/#{product.pid}")
+					.view-products 
+						img(src = "/local/images/image_placeholder.jpg", class = "img-rounded")
+						.h5 #{product.pname}
+						.dl #{product.pdesc}

@@ -1,0 +1,17 @@
+extends layout
+
+block title
+	title Product Catalog - Product Details
+
+block content
+	each info, i in product
+		.text-left(style = "float:left")
+			if info.pimg != ""
+				img(src = "#{info.pimg}" class = "img-rounded")
+			else
+				img(src = "/local/images/image_placeholder.jpg" class = "img-rounded")
+
+			.h3 #{info.pname}
+
+			.dl #{info.pdesc}
+		.comments These are the comments
