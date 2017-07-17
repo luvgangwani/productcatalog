@@ -27,10 +27,10 @@ CREATE TABLE `productlist` (
   `pname` varchar(50) DEFAULT NULL,
   `pdesc` text NOT NULL,
   `pimg` text NOT NULL,
-  `created` int(11) NOT NULL,
-  `updated` int(11) NOT NULL,
+  `created` text NOT NULL,
+  `updated` text NOT NULL,
   PRIMARY KEY (`pid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +39,7 @@ CREATE TABLE `productlist` (
 
 LOCK TABLES `productlist` WRITE;
 /*!40000 ALTER TABLE `productlist` DISABLE KEYS */;
+INSERT INTO `productlist` VALUES (1,'Samsung Galaxy S7','This is a smartphone from Samsung','','1500284819716','1500284819716'),(2,'Motorola G5','This is a smartphone from Motorola','','1500284893967','1500284893967'),(3,'LG G7','This is a smartphone from LG','','1500284952962','1500284952962'),(4,'Vivo V5','This is a smartphone from Vivo','','1500285275985','1500285275985'),(5,'Dell Inspiron','This is a laptop from Dell','','1500285459051','1500285459051'),(6,'Google Nexus 6','This is a smartphone from Google\n','','1500290768027','1500290768027'),(7,'HP Notebook 15','This is a laptop from HP','','1500290963232','1500290963232'),(8,'Dell Inspiron 15','This is a laptop from Dell','','1500291001640','1500291001640'),(9,'Lenovo core','This is a laptop from Lenovo','','1500291078271','1500291078271');
 /*!40000 ALTER TABLE `productlist` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-14 19:01:26
+-- Dump completed on 2017-07-17 19:28:41
