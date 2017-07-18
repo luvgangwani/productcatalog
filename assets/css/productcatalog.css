@@ -40,6 +40,11 @@ form#addnewproduct .alert-success, form#addnewproduct .alert-warning {
 
 .comments {
 
-	position: relative;
-	width: inherit;
+	border: solid 1px #cccccc;
+	border-radius: 4px;
+	/*position: relative;*/
+	width: auto;
+	margin-left: 279px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }

@@ -41,4 +41,36 @@ $(document).ready(function(){
 
     });
 
+    $(".comments").on('input', '#txtComment', function(e){
+
+        if($(this).val().length > 0){
+            $("#btnComment").attr("disabled",false);
+        }
+        else {
+            $("#btnComment").attr("disabled",true);
+        }
+        
+    });
+
+    $(".comments").on('click', "#btnComment", function(e){
+
+        e.preventDefault();
+
+        var data = {
+
+            'comment': $("#txtComment").val()
+
+        };
+        $.ajax({
+
+            url: '/viewproduct/' + $("#txtComment").data("pid"),
+            method: 'post',
+            data: data,
+            dataType: 'json',
+            success: function(data){
+                $(".comments form")[0].reset();
+            }
+        });
+    });
+
 });
