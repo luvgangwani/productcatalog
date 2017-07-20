@@ -68,7 +68,23 @@ $(document).ready(function(){
             data: data,
             dataType: 'json',
             success: function(data){
-                $(".comments form")[0].reset();
+
+                if(data != 0){
+
+                    $(".comments form .alert-success").show();
+                    setTimeout(function(){
+                        $(".comments form .alert-success").slideUp();
+                    }, 2000);
+                    $(".comments form")[0].reset();
+                }
+                else {
+
+                    $(".comments form .alert-warning").show();
+                    setTimeout(function(){
+                        $(".comments form .alert-warning").slideUp();
+                    }, 2000);
+                }
+
             }
         });
     });

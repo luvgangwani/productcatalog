@@ -16,14 +16,18 @@ block content
 			.dl #{info.pdesc}
 		.comments
 			.comment-block
+				each comment, i in comments
+					p #{comment.comment}
+					sub  - #{comment.created}
+					hr
 			form(action = "/viewproduct/#{info.pid}", method = "post", class = "form-inline")
 				.form-group
 					label(for = "txtComment") Comment &nbsp;
 					textarea(class = "form-control", name = "txtComment", id = "txtComment", rows = 4, cols = 50, data-pid = "#{info.pid}")
 				input(type = "submit", class = "btn btn-primary", name = "btnComment", id = "btnComment", disabled)
-			.alert.alert-success(style = "display:none")
-				span(class = "glyphicon glyphicon-ok")
-				i &nbsp; Comment added!
-			.alert.alert-warning(style = "display:none")
-				span(class = "glyphicon glyphicon-remove")
-				i &nbsp; Comment not added. Try again!
+				.alert.alert-success(style = "display:none")
+					span(class = "glyphicon glyphicon-ok")
+					i &nbsp; Comment added!
+				.alert.alert-warning(style = "display:none")
+					span(class = "glyphicon glyphicon-remove")
+					i &nbsp; Comment not added. Try again!

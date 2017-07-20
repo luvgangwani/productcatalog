@@ -79,11 +79,15 @@ app.get('/viewproduct/:id', function(request, response){
 
 			console.log("Connected successfully!");
 
+			var sql_comments = "SELECT *";
+			sql_comments += " FROM comments";
+			sql_comments += " WHERE pid = " + request.params['id'];
+
 			var sql = "SELECT pid, pname, pdesc, pimg"
 			sql += " FROM productlist"
 			sql += " WHERE pid = " + request.params['id']
 
-			connection.query(sql, function(err, rows, fields){
+			connection.query(sql_comments, function(err, rows_comments, fields){
 
 				if(err){
 
@@ -91,7 +95,21 @@ app.get('/viewproduct/:id', function(request, response){
 				}
 				else{
 
-					response.render('productdetails',{'product':rows})
+					connection.query(sql, function(err, rows_product, fields){
+
+						if(err){
+
+							console.log("Unable to get data: " + err);
+						}
+						else{
+
+							response.render('productdetails',{
+								'product':rows_product,
+								'comments': rows_comments
+							});
+						}
+					});
+
 				}
 			});
 		}
