@@ -120,8 +120,6 @@ app.post('/viewproduct/:id', function(request, response){
 
 	var pid = request.params['id'];
 
-	console.log(request.body);
-
 	var connection = mysql.createConnection({
 
 		host: 'localhost',

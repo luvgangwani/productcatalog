@@ -75,6 +75,11 @@ $(document).ready(function(){
                     setTimeout(function(){
                         $(".comments form .alert-success").slideUp();
                     }, 2000);
+
+                    $(".comments .comment-block").append("<p>" + $("#txtComment").val() + "</p>");
+                    $(".comments .comment-block").append("<sub> - " + Date.now() + "</sub>")
+                    $(".comments .comment-block").append("<hr>");
+
                     $(".comments form")[0].reset();
                 }
                 else {
