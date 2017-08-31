@@ -41,6 +41,18 @@ $(document).ready(function(){
 
     });
 
+    $("#addnewproduct").on('input', '#pname', function(e){
+
+        if($('#addnewproduct #pname').val().length > 0){
+
+            $('#addnewproduct #btnNewProduct').prop('disabled', false);
+        }
+        else{
+
+            $('#addnewproduct #btnNewProduct').prop('disabled', true);
+        }
+    });
+
     $(".comments").on('input', '#txtComment', function(e){
 
         if($(this).val().length > 0){
@@ -77,7 +89,7 @@ $(document).ready(function(){
                     }, 2000);
 
                     $(".comments .comment-block").append("<p>" + $("#txtComment").val() + "</p>");
-                    $(".comments .comment-block").append("<sub> - " + Date.now() + "</sub>")
+                    $(".comments .comment-block").append("<sub> - " + get_formatted_date(Date.now()) + "</sub>")
                     $(".comments .comment-block").append("<hr>");
 
                     $(".comments form")[0].reset();
@@ -93,5 +105,46 @@ $(document).ready(function(){
             }
         });
     });
+
+    function get_formatted_date(timestamp){
+
+        var date = null;
+
+        var day = null;
+
+        var month = null;
+
+        var months = [];
+
+        var year = null;
+
+        var hour = null;
+
+        var min = null;
+
+        var sec = null;
+
+        var formatted_date = null;
+
+        date = new Date(parseInt(timestamp));
+
+        day = date.getDate();
+
+        months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+        month = months[date.getMonth() - 1];
+
+        year = date.getFullYear();
+
+        hour = date.getHours();
+
+        min = date.getMinutes();
+
+        sec = date.getSeconds();
+
+        formatted_date = day + '/' + month + '/' + year + ' ' + hour + ':' + min + ':' + sec;
+
+        return formatted_date;
+    }
 
 });

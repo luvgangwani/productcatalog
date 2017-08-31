@@ -4,7 +4,11 @@ var path = require('path');
 
 var bodyParser = require('body-parser');
 
+var database = require('./database');
+
 var mysql = require('mysql');
+
+var result = null;
 
 var app = express();
 
@@ -23,131 +27,35 @@ app.get('/', function(request, response){
 
 app.get('/viewproducts', function(request,response){
 
-	var connection = mysql.createConnection({
-		host: 'localhost',
-		user: 'root',
-		password: 'password_123',
-		database: 'productcatalog'
+	database.get_product_list("productlist", ['pid', 'pname', 'pdesc'], function(result){
+
+		response.render('viewproducts', {'products':result});
+
 	});
-
-	connection.connect(function(err){
-
-		if(err){
-
-			console.log("Unable to connect: " + err);
-		}
-		else {
-
-			console.log("Connected successfully!");
-
-			var sql = "SELECT pid, pname, pdesc";
-			sql += " FROM productlist";
-
-			connection.query(sql, function(err, rows, fields){
-
-				if(err){
-
-					console.log("Unable to get product data: " + err);
-				}
-				else {
-
-					// console.log(rows);
-					response.render('viewproducts', {'products':rows})
-				}
-			});
-		}
-	})
 
 });
 
 app.get('/viewproduct/:id', function(request, response){
 
-	var connection = mysql.createConnection({
-		host: 'localhost',
-		user: 'root',
-		password: 'password_123',
-		database: 'productcatalog'
+	database.get_product_details_by_id(request.params['id'],function(rows_product, rows_comments){
+		
+		response.render('productdetails',{
+			'product':rows_product,
+			'comments': rows_comments
+		});
 	});
-
-	connection.connect(function(err){
-
-		if(err){
-
-			console.log("Unable to connect: " + err);
-		}
-		else{
-
-			console.log("Connected successfully!");
-
-			var sql_comments = "SELECT *";
-			sql_comments += " FROM comments";
-			sql_comments += " WHERE pid = " + request.params['id'];
-
-			var sql = "SELECT pid, pname, pdesc, pimg"
-			sql += " FROM productlist"
-			sql += " WHERE pid = " + request.params['id']
-
-			connection.query(sql_comments, function(err, rows_comments, fields){
-
-				if(err){
-
-					console.log("Unable to get the data: " + err);
-				}
-				else{
-
-					connection.query(sql, function(err, rows_product, fields){
-
-						if(err){
-
-							console.log("Unable to get data: " + err);
-						}
-						else{
-
-							response.render('productdetails',{
-								'product':rows_product,
-								'comments': rows_comments
-							});
-						}
-					});
-
-				}
-			});
-		}
-	})
 });
 
 app.post('/viewproduct/:id', function(request, response){
 
 	var pid = request.params['id'];
+	var comment_body = '';
 
-	var connection = mysql.createConnection({
+	comment_body = request.body.comment;
 
-		host: 'localhost',
-		user: 'root',
-		password: 'password_123',
-		database: 'productcatalog'
-	});
+	database.add_comment(pid, comment_body, function(result){
 
-	connection.connect(function(err){
-		if(err){
-			console.log("Unable to connect: " + err);
-		}
-		else{
-			console.log("Connected successfully!");
-
-			var sql = "INSERT INTO comments(pid, comment, created, updated)";
-			sql += "VALUES ("+pid+",'"+request.body.comment+"',"+Date.now()+","+Date.now()+");";
-
-			connection.query(sql, function(err, result){
-				if(err){
-					console.log("Unable to add entry: " + err);
-				}
-				else{
-
-					response.send(result);
-				}
-			});
-		}
+		response.send(result);
 	});
 });
 
@@ -159,42 +67,16 @@ app.get('/addnewproduct', function(request, response){
 
 app.post('/addnewproduct', function(request, response){
 
-	var connection = mysql.createConnection({
-		host: 'localhost',
-		user: 'root',
-		password: 'password_123',
-		database: 'productcatalog'
-	});
+	var pname = request.body.pname;
+	var pdesc = request.body.pdesc;
 
-	connection.connect(function(err){
+	database.add_new_product(pname, pdesc, function(result){
 
-		if(err){
-			console.log("Unable to connect:" + err);
-		}
-		else{
-
-			console.log("Connected successfully!");
-
-			var sql = "INSERT INTO productlist(pname, pdesc, created, updated)";
-			sql += "VALUES('"+request.body.pname+"','"+request.body.pdesc+"',"+Date.now()+","+Date.now()+");";
-
-			//console.log(sql);
-
-			connection.query(sql, function(err, result){
-
-				if(err){
-
-					console.log("Unable to add a product: "+err);
-				}
-				else{
-
-					response.send(result);
-				}
-			});
-		}
+		response.send(result);
 	});
 
 });
+
 app.listen('3333', function(){
 	console.log("Server started..");
 });
