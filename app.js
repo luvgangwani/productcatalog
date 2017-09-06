@@ -2,6 +2,10 @@ var express = require('express');
 
 var path = require('path');
 
+var fs = require('fs');
+
+var lr = require('readline');
+
 var bodyParser = require('body-parser');
 
 var database = require('./database');
@@ -9,6 +13,8 @@ var database = require('./database');
 var mysql = require('mysql');
 
 var result = null;
+
+var linereader = null;
 
 var app = express();
 
@@ -37,11 +43,12 @@ app.get('/viewproducts', function(request,response){
 
 app.get('/viewproduct/:id', function(request, response){
 
-	database.get_product_details_by_id(request.params['id'],function(rows_product, rows_comments){
-		
+	database.get_product_details_by_id(request.params['id'],function(rows_product, rows_comments,product_review){
+
 		response.render('productdetails',{
 			'product':rows_product,
-			'comments': rows_comments
+			'comments': rows_comments,
+			'product_review': product_review
 		});
 	});
 });
@@ -76,6 +83,56 @@ app.post('/addnewproduct', function(request, response){
 	});
 
 });
+
+/*app.get('/texttojson', function(request, response){
+
+	var word_score = [];
+
+	var i = 1;
+
+	fs.writeFile('./lib/scores.json', '{\n',function(err){
+
+		if(err){
+
+			console.log(err);
+		}
+	});
+
+	linereader = lr.createInterface({
+
+		input: fs.createReadStream('./assets/AFINN/AFINN-111.txt')
+	});
+
+	linereader.on('line', function(line){
+
+		word_score = line.split(' ');
+
+		if(word_score.length > 2){
+
+			while(i < word_score.length - 1){
+
+				word_score[0] += ' ' + word_score[i];
+				i++;
+			}
+		}
+		fs.appendFile('./lib/scores.json', '\t"' + word_score[0] + '" : ' + word_score[word_score.length - 1] +',\n',function(err){
+
+			if(err){
+
+				console.log(err);
+			}
+		});
+	});
+
+	fs.appendFile('./lib/scores.json', '}',function(err){
+
+		if(err){
+
+			console.log(err);
+		}
+	});
+
+});*/
 
 app.listen('3333', function(){
 	console.log("Server started..");

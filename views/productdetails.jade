@@ -14,6 +14,18 @@ block content
 			.h3 #{info.pname}
 
 			.dl #{info.pdesc}
+
+			.h5
+				u Review
+				.review
+					each i in product_review
+						if i != 0
+							span(class = "glyphicon glyphicon-star")
+						if i == 0
+							span(class = "glyphicon glyphicon-star-empty")
+					
+
+
 		.comments
 			.comment-block
 				each comment, i in comments

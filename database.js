@@ -2,10 +2,13 @@ var constants = null;
 var mysql = null;
 var connection = null;
 var connect_to_mysql = null;
+var scores = null;
 
 constants = require("./constants");
 
 mysql = require("mysql");
+
+scores = require("./lib/scores");
 
 connection = mysql.createConnection({
 
@@ -75,6 +78,80 @@ function get_formatted_date(timestamp){
 	return formatted_date;
 }
 
+function get_product_review(rows_comments){
+
+	var comment_arr = [];
+	var score = 0;
+	var comment_score = 0;
+	var count = 0;
+	var product_review = [];
+	var final_score = 0;
+	var i = 0;
+
+	if(rows_comments.length != 0){
+
+		rows_comments.forEach(function(comments, index){
+
+			comment_score = 0;
+			comment_arr = comments.comment.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(' ');
+			comment_arr.forEach(function(token, index){
+
+				if(scores[token.toLowerCase()]){
+
+					comment_score += scores[token.toLowerCase()];
+					count++;
+				}
+				else{
+
+					comment_score += 0;
+				}
+			});
+
+			score += comment_score;
+			
+		});
+
+		if(count > 0){
+
+			final_score = Math.ceil(score/count);
+		}
+		else{
+			
+			final_score = 0;
+		}
+
+		if(final_score > 0){
+
+			for (i = 1; i <= final_score; i++){
+
+				product_review.push(i);
+			}
+
+			for (i = final_score + 1; i <= 5; i++){
+
+				product_review.push(0);
+			}
+		}
+		else{
+
+			for(i = 0; i < 5; i++){
+
+				product_review.push(0);
+			}
+		}
+
+	}
+	else {
+
+		for(i = 0; i < 5; i++){
+
+			product_review.push(0);
+		}
+	}
+
+	return product_review;
+}
+
 module.exports = {
 
 	get_product_list: function(table, fields, cb){
@@ -130,7 +207,9 @@ module.exports = {
 		sql += " FROM productlist"
 		sql += " WHERE pid = " + id;
 
-		connection.query(sql_comments, function(err, rows_comments, fields){
+		var product_review = [];
+
+		connection.query(sql_comments, function(err, rows_comments, fields_comments){
 
 			if(err){
 
@@ -138,11 +217,13 @@ module.exports = {
 			}
 			else{
 
+				product_review = get_product_review(rows_comments);
+
 				rows_comments.forEach(function(comment, index){
 
 					comment.created = get_formatted_date(comment.created);
 				});
-				connection.query(sql, function(err, rows_product, fields){
+				connection.query(sql, function(err, rows_product, fields_product){
 
 					if(err){
 
@@ -150,7 +231,7 @@ module.exports = {
 					}
 					else{
 
-						cb(rows_product, rows_comments);
+						cb(rows_product, rows_comments, product_review);
 						//connection.end();
 					}
 				});
